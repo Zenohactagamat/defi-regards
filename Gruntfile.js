@@ -16,7 +16,8 @@ module.exports = function (grunt) {
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn'
+    cdnify: 'grunt-google-cdn',
+    injector: 'grunt-injector'
   });
 
   // Configurable paths for the application
@@ -224,7 +225,7 @@ module.exports = function (grunt) {
         src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
         ignorePath: /(\.\.\/){1,2}bower_components\//
       }
-    }, 
+    },
 
     // Compiles Sass to CSS and generates necessary files if requested
     compass: {
@@ -450,6 +451,32 @@ module.exports = function (grunt) {
       ]
     },
 
+    injector: {
+      options: {},
+      // Inject application script files into index.html (doesn't include bower)
+      scripts: {
+        options: {
+          transform: function(filePath) {
+            // filePath = filePath.replace('/client/', '');
+            filePath = filePath.replace('/app/', '');
+            return '<script src="' + filePath + '"></script>';
+          },
+          starttag: '<!-- injector:js -->',
+          endtag: '<!-- endinjector -->',
+          template: '<%= yeoman.app %>/index.html'
+        },
+        files: {
+          '<%= yeoman.app %>/index.html': [
+            ['{.tmp,<%= yeoman.app %>}/scripts/**/*.js',
+              '!{.tmp,<%= yeoman.app %>}/scripts/app.js',
+              '!{.tmp,<%= yeoman.app %>}/scripts/**/*.spec.js',
+              '!{.tmp,<%= yeoman.app %>}/scripts/**/*.mock.js'
+            ]
+          ]
+        }
+      },
+    },
+
     // Test settings
     karma: {
       unit: {
@@ -466,6 +493,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
+      'injector:scripts',
       'clean:server',
       'wiredep',
       'concurrent:server',
