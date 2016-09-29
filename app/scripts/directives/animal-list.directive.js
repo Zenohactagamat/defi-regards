@@ -3,7 +3,7 @@
 
 /**
  * @ngdoc directive
- * @name alissApp.defiAnimalList
+ * @name defiApp.defiAnimalList
  * @description
  * # Animal list directive
  * Manage animal list
