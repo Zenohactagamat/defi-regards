@@ -1,0 +1,36 @@
+<div class="animal-list">
+  <h2>Animaux</h2>
+  <span class="btn btn-default glyphicon glyphicon-plus" role="button" ng-click="add()" aria-label="Ajouter un animal" title="Ajouter un animal"></span>
+
+  <div class="table-responsive" ng-if="list.length > 0">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>
+            Nom
+          </th>
+          <th>
+            Présentation
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(animal, id) in list">
+          <td>{{animal.name}}</td>
+          <td>{{animal.speak()}} et {{animal.skinLabel}} {{animal.getSkinInfo()}}</td>
+          <td>
+            <button type="button" class="glyphicon glyphicon-edit" aria-label="Editer" title="Editer" ng-click="edit(id)"></button>
+            <button type="button" class="glyphicon glyphicon-trash" aria-label="Supprimer" title="Supprimer" ng-click="delete(id)"></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <p class="empty-list" ng-if="list.length === 0">
+    Aucun animal ajouté.
+  </p>
+  <span class="btn btn-default glyphicon glyphicon-plus" role="button" ng-click="add()" aria-label="Ajouter un animal" title="Ajouter un animal"></span>
+</div>
